@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<?php 
+<?php
+    include_once "../conf/default.inc.php";
+    require_once "../conf/Conexao.php";
+    include_once "acao.php";
+    $comando = isset($_GET['comando']) ? $_GET['comando'] : "";
+    $tabela = "loja";
+    $dados;
+    if ($comando == 'update'){
+    $id = isset($_GET['id']) ? $_GET['id'] : "";
+    if ($id > 0)
+        $dados = buscarDados($id, $tabela);
+    }
     $loj_nome = isset($_POST['LOJ_NOME']) ? $_POST['LOJ_NOME'] : "";
     $loj_estado = isset($_POST['LOJ_ESTADO']) ? $_POST['LOJ_ESTADO'] : "";
     $loj_cidade = isset($_POST['LOJ_CIDADE']) ? $_POST['LOJ_CIDADE'] : "";
     $loj_rua = isset($_POST['LOJ_RUA']) ? $_POST['LOJ_RUA'] : "";
     $loj_numero = isset($_POST['LOJ_NUMERO']) ? $_POST['LOJ_NUMERO'] : "";
     $loj_telefone = isset($_POST['LOJ_TELEFONE']) ? $_POST['LOJ_TELEFONE'] : "";
-    $comando = isset($_POST['comando']) ? $_POST['comando'] : "";
-    $tabela = isset($_POST['tabela']) ? $_POST['tabela'] : "";
     ?>
 <html>
 <head>
@@ -25,6 +34,10 @@
     </style>
 </head>
 <body>
+    <?php 
+    
+    
+    ?>
     <header>
         <nav class="" id="nav">
             <a href="../index.php"><img class="navItem" id="navTitle" src="../img/carGoLogo.png"></a>
@@ -37,25 +50,26 @@
         <form action="acao.php" method="post" id="form">
             <p class="formItem formText" id="formLocal">Cadastrar Loja</p><br><br><br>
             <p class="formItem formText" id="formLocal">Nome da loja:</p>
-            <input type="text" class="formItem formInput" name="LOJ_NOME" id="LOJ_NOME" value="<?php if(isset($_POST["LOJ_NOME"])){ echo $loj_nome;}?>">
+            <input required type="text" class="formItem formInput" name="LOJ_NOME" id="LOJ_NOME" value="<?php if ($comando == "update"){echo $dados['LOJ_NOME'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataRetirada">Estado:</p>
-            <input type="text" class="formItem formInput" name="LOJ_ESTADO" id="LOJ_ESTADO" value="<?php if(isset($_POST["LOJ_ESTADO"])){ echo $loj_estado;}?>">
+            <input required type="text" class="formItem formInput" name="LOJ_ESTADO" id="LOJ_ESTADO" value="<?php if ($comando == "update"){echo $dados['LOJ_ESTADO'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Cidade:</p>
-            <input type="text" class="formItem formInput" name="LOJ_CIDADE" id="LOJ_CIDADE" value="<?php if(isset($_POST["LOJ_CIDADE"])){ echo $loj_cidade;}?>">
+            <input required type="text" class="formItem formInput" name="LOJ_CIDADE" id="LOJ_CIDADE" value="<?php if ($comando == "update"){echo $dados['LOJ_CIDADE'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Rua:</p>
-            <input type="text" class="formItem formInput" name="LOJ_RUA" id="LOJ_RUA" value="<?php if(isset($_POST["LOJ_RUA"])){ echo $loj_rua;}?>">
+            <input required type="text" class="formItem formInput" name="LOJ_RUA" id="LOJ_RUA" value="<?php if ($comando == "update"){echo $dados['LOJ_RUA'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Número:</p>
-            <input type="number" class="formItem formInput" name="LOJ_NUMERO" id="LOJ_NUMERO" value="<?php if(isset($_POST["LOJ_NUMERO"])){ echo $loj_numero;}?>">
+            <input required type="number" class="formItem formInput" name="LOJ_NUMERO" id="LOJ_NUMERO" value="<?php if ($comando == "update"){echo $dados['LOJ_NUMERO'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Telefone:</p>
-            <input type="tel" class="formItem formInput" name="LOJ_TELEFONE" id="LOJ_TELEFONE" value="<?php if(isset($_POST["LOJ_TELEFONE"])){ echo $loj_telefone;}?>">
+            <input required type="tel" class="formItem formInput" name="LOJ_TELEFONE" id="LOJ_TELEFONE" value="<?php if ($comando == "update"){echo $dados['LOJ_TELEFONE'];}?>">
             <br><br><br><br>
-            <input type="hidden" id="comando" name="comando" class="comando" value="insert">
+            <input type="hidden" name="comando" id="" value="<?php if($comando == "update"){echo "update";}else{echo "insert";}?>">
             <input type="hidden" id="tabela" name="tabela" class="tabela" value="loja">
+            <input type="hidden" name="id" id="" value="<?php if($comando == "update"){echo $id;}?>">
             <input type="submit" class="formItem formInput" id="acao" value="ENVIAR">
             <br><br><br><br>
         </form>    

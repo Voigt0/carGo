@@ -1,5 +1,16 @@
 <!DOCTYPE html>
-<?php 
+<?php
+    include_once "../conf/default.inc.php";
+    require_once "../conf/Conexao.php";
+    include_once "acao.php";
+    $comando = isset($_GET['comando']) ? $_GET['comando'] : "";
+    $tabela = "cliente";
+    $dados;
+    if ($comando == 'update'){
+    $id = isset($_GET['id']) ? $_GET['id'] : "";
+    if ($id > 0)
+        $dados = buscarDados($id, $tabela);
+    }
     $cli_nome = isset($_POST['CLI_NOME']) ? $_POST['CLI_NOME'] : "";
     $cli_sobrenome = isset($_POST['CLI_SOBRENOME']) ? $_POST['CLI_SOBRENOME'] : "";
     $cli_nascimento = isset($_POST['CLI_NASCIMENTO']) ? $_POST['CLI_NASCIMENTO'] : "";
@@ -11,8 +22,6 @@
     $cli_cnhtipo = isset($_POST['CLI_CNHTIPO']) ? $_POST['CLI_CNHTIPO'] : "";
     $cli_cpf = isset($_POST['CLI_CPF']) ? $_POST['CLI_CPF'] : "";
     $cli_senha = isset($_POST['CLI_SENHA']) ? $_POST['CLI_SENHA'] : "";
-    $comando = isset($_POST['comando']) ? $_POST['comando'] : "";
-    $tabela = isset($_POST['tabela']) ? $_POST['tabela'] : "";
     ?>
 <html>
 <head>
@@ -41,41 +50,42 @@
     <content>
         <form action="acao.php" method="post" id="form">
             <p class="formItem formText" id="formLocal">Nome:</p>
-            <input type="text" class="formItem formInput" name="CLI_NOME" id="CLI_NOME" value="<?php if(isset($_POST["CLI_NOME"])){ echo $cli_nome;}?>">
+            <input required type="text" class="formItem formInput" name="CLI_NOME" id="CLI_NOME" value="<?php if ($comando == "update"){echo $dados['CLI_NOME'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataRetirada">Sobrenome:</p>
-            <input type="text" class="formItem formInput" name="CLI_SOBRENOME" id="CLI_SOBRENOME" value="<?php if(isset($_POST["CLI_SOBRENOME"])){ echo $cli_sobrenome;}?>">
+            <input required type="text" class="formItem formInput" name="CLI_SOBRENOME" id="CLI_SOBRENOME" value="<?php if ($comando == "update"){echo $dados['CLI_SOBRENOME'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Nascimento:</p>
-            <input type="date" class="formItem formInput" name="CLI_NASCIMENTO" id="CLI_NASCIMENTO" value="<?php if(isset($_POST["CLI_NASCIMENTO"])){ echo $cli_nascimento;}?>">
+            <input required type="date" class="formItem formInput" name="CLI_NASCIMENTO" id="CLI_NASCIMENTO" value="<?php if ($comando == "update"){echo $dados['CLI_NASCIMENTO'];}?>">
             <br><br>
-            <p class="formItem formText" id="formDataDevolucao">Telefone:</p>
-            <input type="tel" class="formItem formInput" name="CLI_TELEFONE" id="CLI_TELEFONE" value="<?php if(isset($_POST["CLI_TELEFONE"])){ echo $cli_telefone;}?>">
+            <p required class="formItem formText" id="formDataDevolucao">Telefone:</p>
+            <input required type="tel" class="formItem formInput" name="CLI_TELEFONE" id="CLI_TELEFONE" value="<?php if ($comando == "update"){echo $dados['CLI_TELEFONE'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Email:</p>
-            <input type="email" class="formItem formInput" name="CLI_EMAIL" id="CLI_EMAIL" value="<?php if(isset($_POST["CLI_EMAIL"])){ echo $cli_email;}?>">
+            <input type="email" class="formItem formInput" name="CLI_EMAIL" id="CLI_EMAIL" value="<?php if ($comando == "update"){echo $dados['CLI_EMAIL'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Telefone Reserva:</p>
-            <input type="tel" class="formItem formInput" name="CLI_TELEFONERES" id="CLI_TELEFONERES" value="<?php if(isset($_POST["CLI_TELEFONERES"])){ echo $cli_telefoneres;}?>">
+            <input type="tel" class="formItem formInput" name="CLI_TELEFONERES" id="CLI_TELEFONERES" value="<?php if ($comando == "update"){echo $dados['CLI_TELEFONERES'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Número CNH:</p>
-            <input type="number" class="formItem formInput" name="CLI_CNH" id="CLI_CNH" value="<?php if(isset($_POST["CLI_CNH"])){ echo $cli_cnh;}?>">
+            <input required type="number" class="formItem formInput" name="CLI_CNH" id="CLI_CNH" value="<?php if ($comando == "update"){echo $dados['CLI_CNH'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Validade da CNH:</p>
-            <input type="date" class="formItem formInput" name="CLI_CNHVALIDADE" id="CLI_CNHVALIDADE" value="<?php if(isset($_POST["CLI_CNHVALIDADE"])){ echo $cli_cnhvalidade;}?>">
+            <input required type="date" class="formItem formInput" name="CLI_CNHVALIDADE" id="CLI_CNHVALIDADE" value="<?php if ($comando == "update"){echo $dados['CLI_CNHVALIDADE'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Tipo de CNH:</p>
-            <input type="text" class="formItem formInput" name="CLI_CNHTIPO" id="CLI_CNHTIPO" value="<?php if(isset($_POST["CLI_CNHTIPO"])){ echo $cli_cnhtipo;}?>">
+            <input required type="text" class="formItem formInput" name="CLI_CNHTIPO" id="CLI_CNHTIPO" value="<?php if ($comando == "update"){echo $dados['CLI_CNHTIPO'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">CPF:</p>
-            <input type="number" class="formItem formInput" name="CLI_CPF" id="CLI_CPF" value="<?php if(isset($_POST["CLI_CPF"])){ echo $cli_cpf;}?>">
+            <input required type="number" class="formItem formInput" name="CLI_CPF" id="CLI_CPF" value="<?php if ($comando == "update"){echo $dados['CLI_CPF'];}?>">
             <br><br>
             <p class="formItem formText" id="formDataDevolucao">Senha:</p>
-            <input type="text" class="formItem formInput" name="CLI_SENHA" id="CLI_SENHA" value="<?php if(isset($_POST["CLI_SENHA"])){ echo $cli_senha;}?>">
+            <input required type="password" class="formItem formInput" name="CLI_SENHA" id="CLI_SENHA" value="<?php if ($comando == "update"){echo $dados['CLI_SENHA'];}?>">
             <br><br>
             <br><br><br><br>
-            <input type="hidden" id="comando" name="comando" class="comando" value="insert">
+            <input type="hidden" name="comando" id="" value="<?php if($comando == "update"){echo "update";}else{echo "insert";}?>">
             <input type="hidden" id="tabela" name="tabela" class="tabela" value="cliente">
+            <input type="hidden" name="id" id="" value="<?php if($comando == "update"){echo $id;}?>">
             <input type="submit" class="formItem formInput" id="acao" value="ENVIAR">
             <br><br><br><br>
             <a href="login.php"><p class="formItem formInput" id="logCadPage"> Login </p><a>

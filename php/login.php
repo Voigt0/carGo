@@ -31,10 +31,10 @@
     <content>
         <form action="acao.php" method="post" id="form">
             <p class="formItem formText" id="formLocal">CPF:</p>
-            <input type="text" class="formItem formInput" name="CLI_CPF" id="CLI_CPF">
+            <input type="text" class="formItem formInput" name="CLI_CPF" id="CLI_CPF" required>
             <br><br>
             <p class="formItem formText" id="formDataRetirada">Senha:</p>
-            <input type="text" class="formItem formInput" name="CLI_SENHA" id="CLI_SENHA">
+            <input type="password" class="formItem formInput" name="CLI_SENHA" id="CLI_SENHA"required>
             <input type="hidden" class="" name="comando" id="verificar" value="verificar">
             <br><br>
             <input type="submit" class="formItem formInput" id="acao" value="ENVIAR">
